@@ -27,11 +27,8 @@
   /* nav */
   header{position:sticky;top:0;z-index:50;background:rgba(24,26,29,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2)}
   .bar{display:flex;align-items:center;justify-content:space-between;height:62px}
-  .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:16px;color:#fff}
-  .cells{display:inline-flex;gap:3px}
-  .cells i{width:10px;height:10px;border-radius:2.5px;display:block}
-  .c1{background:#FFCB47}.c2{background:#2D7FF9}.c3{background:#F82B60}.c4{background:#18BFFF}
-  .brand .x{color:var(--faint);font-weight:500;margin:0 1px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:#fff;letter-spacing:-.01em}
+  .atlogo{width:24px;height:24px;display:block}
   .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:13px 22px;border-radius:999px;border:1.5px solid transparent;transition:transform .15s,background .15s,border-color .15s;cursor:pointer}
   .btn.red{background:var(--red);color:#fff}
   .btn.red:hover{background:var(--red-hover);transform:translateY(-1px)}
@@ -84,6 +81,12 @@
   .move .mn{font-weight:800;font-size:15px;color:var(--red);letter-spacing:.04em;margin-bottom:16px}
   .move h3{font-size:19px;font-weight:600;margin-bottom:9px;letter-spacing:-.01em}
   .move p{font-size:14.5px;color:var(--text)}
+  /* outcomes */
+  .outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:820px){.outcomes{grid-template-columns:1fr}}
+  .oc{padding:24px;border:1px solid var(--line-2);border-left:3px solid var(--red);border-radius:12px;background:var(--surface)}
+  .oc h3{font-size:17px;font-weight:600;margin-bottom:8px;color:#fff;letter-spacing:-.01em}
+  .oc p{font-size:14.5px;color:var(--text)}
   /* proof */
   .proof{background:var(--ink-2);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
   .proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -96,15 +99,6 @@
   .story .cat{color:var(--faint);font-size:12px;margin-top:2px;letter-spacing:.02em}
   .story .res{font-size:15px;color:var(--text);flex:1}
   .story .lnk{font-size:13.5px;font-weight:600;color:var(--red)}
-  /* pilot */
-  .pilot{background:linear-gradient(180deg,#202327,#1a1c20);border:1px solid var(--line);border-radius:22px;padding:46px;display:grid;grid-template-columns:1.25fr 1fr;gap:30px;align-items:center}
-  @media(max-width:760px){.pilot{grid-template-columns:1fr;padding:32px}}
-  .pilot h2{font-size:clamp(25px,3.3vw,36px)}
-  .pilot p{color:var(--text);margin-top:13px;font-size:16px}
-  .steps{display:flex;flex-direction:column;gap:13px}
-  .step{display:flex;gap:13px;align-items:flex-start}
-  .step i{flex:none;width:27px;height:27px;border-radius:50%;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-size:12.5px;font-weight:700;font-style:normal}
-  .step span{font-size:14.5px;color:var(--text)}
   /* cta */
   .cta-final{text-align:center;max-width:680px;margin:0 auto}
   .cta-final h2{font-size:clamp(30px,4vw,46px);font-weight:700;letter-spacing:-.03em}
@@ -122,7 +116,7 @@
 <body>
 <header>
   <div class="wrap bar">
-    <div class="brand"><span class="cells"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></span>Airtable <span class="x">for</span> Peloton</div>
+    <div class="brand"><img class="atlogo" src="data:image/png;base64,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" alt="Airtable" />Airtable</div>
     <a href="#book" class="btn red sm">Schedule time with Dan &rarr;</a>
   </div>
 </header>
@@ -175,9 +169,9 @@
 <section id="moves">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">The three moves</div>
-      <h2>Three moves for programming</h2>
-      <p>Where Airtable earns its seat first inside content strategy and scheduling.</p>
+      <div class="kicker">How Airtable helps</div>
+      <h2>Three ways Airtable helps programming</h2>
+      <p>Where it earns its seat first inside content strategy and scheduling.</p>
     </div>
     <div class="moves">
         <div class="move"><div class="mn">MOVE 01</div><h3>Studio calendars, live for everyone</h3><p>Class scheduling, studio calendars across New York and London, instructor assignments, and localization in one connected base &mdash; no one reconciling tabs at 7am.</p></div>
@@ -187,10 +181,24 @@
   </div>
 </section>
 
+<section id="unlocks">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What it unlocks</div>
+      <h2>What changes for you and your team</h2>
+    </div>
+    <div class="outcomes">
+        <div class="oc"><h3>Mornings without tab-reconciling</h3><p>One live schedule across NY and London replaces the spreadsheet juggling.</p></div>
+        <div class="oc"><h3>Conflicts caught before they bite</h3><p>Automations flag double-bookings and slipping dates and nudge the owner.</p></div>
+        <div class="oc"><h3>Distribution everyone can see</h3><p>Booked, filmed, localized, live &mdash; including Spotify &mdash; in one shared view.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="proof" id="proof">
   <div class="wrap">
     <div class="section-head">
-      <div class="kicker">Proof the moves land</div>
+      <div class="kicker">Proof it works</div>
       <h2>Programming teams already run this way on Airtable</h2>
       <p>From global slates to live, broadcast-grade production.</p>
     </div>
@@ -214,27 +222,10 @@
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <div class="pilot">
-      <div>
-        <h2>It starts as a 2-week pilot, not a migration.</h2>
-        <p>Your team runs a single quarter's programming calendar in Airtable. No big rollout, no IT project. If it saves the team time, it spreads on its own.</p>
-      </div>
-      <div class="steps">
-        <div class="step"><i>1</i><span>Pick one workflow — a quarter's programming calendar.</span></div>
-        <div class="step"><i>2</i><span>We stand up a tailored base with your real schedule in days.</span></div>
-        <div class="step"><i>3</i><span>The team runs two weeks. We measure hours saved.</span></div>
-        <div class="step"><i>4</i><span>Expand to the modalities, markets, and teams that want in.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="book" style="padding-top:0">
+<section id="book">
   <div class="wrap cta-final">
-    <h2>Pressure-test it on your real calendar.</h2>
-    <p>Twenty minutes, mapped to your programming workflow — even just to poke holes in it.</p>
+    <h2>Worth a 20-minute conversation?</h2>
+    <p>I'll map it to your real programming workflow &mdash; even just to poke holes in it.</p>
     <a href="mailto:daniel.berg@airtable.com?subject=Airtable%20for%20Peloton%20%E2%80%94%2020%20min" class="btn red">Schedule time with Dan &rarr;</a>
     <div class="contact">
       <div class="who">Dan Berg<small>Enterprise Account Executive, Airtable</small></div>
@@ -247,7 +238,7 @@
 
 <footer>
   <div class="wrap">
-    <div class="brand"><span class="cells"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></span>Airtable <span class="x">for</span> Peloton</div>
+    <div class="brand"><img class="atlogo" src="data:image/png;base64,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" alt="Airtable" />Airtable</div>
     <p class="disclaimer">Prepared by Dan Berg, an Airtable account executive, for discussion purposes. Not an official Peloton communication or an existing partnership. Company names and figures are referenced from public sources (Peloton FY2026 earnings) to frame the conversation; customer stories link to Airtable.com. All trademarks belong to their respective owners.</p>
   </div>
 </footer>
