@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Airtable for Peloton — for Amanda Hill</title>
+<meta name="description" content="For Amanda Hill, SVP Global Content Strategy & Programming: run studio scheduling across NY and London in one live base, with conflict-flagging automations." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0B0B0C; --ink-soft:#3A3A40; --muted:#6B6B75; --line:#E9E9EC;
+    --bg:#FFFFFF; --bg-soft:#F7F7F8;
+    --blue:#2D7FF9; --yellow:#FFCB47; --red:#F82B60; --teal:#18BFFF; --purple:#8B5CF6; --green:#20C933;
+    --radius:18px; --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em;line-height:1.05}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:12px;font-family:'Space Grotesk';font-weight:700;font-size:17px}
+  .cells{display:inline-flex;gap:3px}
+  .cells i{width:11px;height:11px;border-radius:3px;display:block}
+  .c1{background:var(--yellow)}.c2{background:var(--blue)}.c3{background:var(--red)}.c4{background:var(--teal)}
+  .brand .x{color:var(--muted);font-weight:500;margin:0 2px}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-weight:600;font-size:15px;padding:13px 22px;border-radius:999px;transition:transform .15s ease,background .15s ease}
+  .btn:hover{transform:translateY(-1px);background:#1c1c22}
+  .btn.sm{padding:10px 18px;font-size:14px}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--ink)}
+  .hero{padding:84px 0 54px;position:relative;overflow:hidden}
+  .hero .eyebrow{margin-bottom:22px}
+  .hero h1{font-size:clamp(38px,6vw,72px);font-weight:700}
+  .hero h1 .accent{position:relative;white-space:nowrap}
+  .hero h1 .accent:after{content:"";position:absolute;left:-2px;right:-2px;bottom:8px;height:14px;background:var(--yellow);z-index:-1;border-radius:3px}
+  .lede{font-size:clamp(18px,2.1vw,22px);color:var(--ink-soft);max-width:700px;margin:26px 0 34px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .cta-row .tiny{font-size:13px;color:var(--muted)}
+  .floatcells{position:absolute;right:-40px;top:54px;display:grid;grid-template-columns:repeat(3,46px);gap:10px;opacity:.9;transform:rotate(8deg)}
+  .floatcells span{height:46px;border-radius:10px}
+  @media(max-width:880px){.floatcells{display:none}}
+  .band{background:var(--ink);color:#fff;padding:30px 0}
+  .band .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+  .band .intro{font-family:'Space Grotesk';font-weight:600;font-size:16px;max-width:300px;color:#fff}
+  .stats{display:flex;flex-wrap:wrap;gap:30px}
+  .stat .n{font-family:'Space Grotesk';font-weight:700;font-size:26px;line-height:1}
+  .stat .l{font-size:12.5px;color:#A7A7B0;margin-top:6px;max-width:150px}
+  .stat .n.y{color:var(--yellow)}.stat .n.t{color:var(--teal)}.stat .n.g{color:var(--green)}.stat .n.r{color:#FF6B8A}
+  section{padding:72px 0}
+  .section-head{max-width:680px;margin-bottom:42px}
+  .section-head h2{font-size:clamp(28px,3.6vw,42px);font-weight:700}
+  .section-head p{font-size:18px;color:var(--ink-soft);margin-top:16px}
+  .thesis{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .thesis-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+  .thesis-grid .big{font-family:'Space Grotesk';font-weight:600;font-size:clamp(24px,3vw,34px);line-height:1.18}
+  .thesis-grid .big em{font-style:normal;background:linear-gradient(transparent 62%, var(--teal) 62% 88%, transparent 88%)}
+  .thesis-grid p{font-size:17px;color:var(--ink-soft)}
+  .thesis-grid p + p{margin-top:16px}
+  @media(max-width:760px){.thesis-grid{grid-template-columns:1fr;gap:18px}}
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:var(--radius);padding:30px;background:#fff;transition:box-shadow .2s ease,transform .2s ease}
+  .card:hover{box-shadow:0 18px 50px -28px rgba(11,11,12,.28);transform:translateY(-3px)}
+  .card.feature{border-color:var(--ink);box-shadow:0 16px 44px -28px rgba(11,11,12,.4)}
+  .startbadge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--ink);padding:5px 11px;border-radius:999px;margin-bottom:14px}
+  .tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:16px}
+  .dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .card h3{font-size:21px;font-weight:600;margin-bottom:10px}
+  .card p{font-size:15.5px;color:var(--ink-soft)}
+  .card .who{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  .card .who b{color:var(--ink);font-weight:600}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:760px){.why-grid{grid-template-columns:1fr}}
+  .why{padding:26px;border-radius:var(--radius);background:var(--bg-soft)}
+  .why .num{font-family:'Space Grotesk';font-weight:700;font-size:15px;color:var(--blue);margin-bottom:12px}
+  .why h3{font-size:18px;font-weight:600;margin-bottom:8px}
+  .why p{font-size:15px;color:var(--ink-soft)}
+  .pilot{background:var(--ink);color:#fff;border-radius:24px;padding:48px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
+  @media(max-width:760px){.pilot{grid-template-columns:1fr;padding:34px}}
+  .pilot h2{color:#fff;font-size:clamp(26px,3.4vw,38px);font-weight:700}
+  .pilot p{color:#C9C9D2;margin-top:14px;font-size:16.5px}
+  .pilot .steps{display:flex;flex-direction:column;gap:14px}
+  .pilot .step{display:flex;gap:14px;align-items:flex-start}
+  .pilot .step i{flex:none;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:13px;font-weight:700;font-style:normal;font-family:'Space Grotesk'}
+  .pilot .step span{font-size:15px;color:#E7E7EC}
+  .cta-final{text-align:center;max-width:680px;margin:0 auto}
+  .cta-final h2{font-size:clamp(30px,4vw,48px);font-weight:700}
+  .cta-final p{font-size:18px;color:var(--ink-soft);margin:18px 0 30px}
+  .contact{margin-top:30px;display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;align-items:center;padding:20px 28px;border:1px solid var(--line);border-radius:16px}
+  .contact .who{font-family:'Space Grotesk';font-weight:600;font-size:16px}
+  .contact .who small{display:block;font-family:'Inter';font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+  .contact a{font-weight:600;color:var(--blue)}
+  .editme{display:inline-block;margin-top:8px;font-size:12px;color:var(--muted);background:var(--bg-soft);padding:4px 10px;border-radius:6px;border:1px dashed var(--line)}
+  footer{border-top:1px solid var(--line);padding:34px 0;margin-top:72px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+  .disclaimer{font-size:12px;color:var(--muted);max-width:640px}
+  .footbrand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:15px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <div class="brand"><span class="cells"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></span>Airtable <span class="x">for</span> Peloton</div>
+    <a href="#book" class="btn sm">Book a 20-min look</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Prepared for Amanda Hill &middot; SVP, Global Content Strategy &amp; Programming &middot; 2026</div>
+    <h1>Scheduling across NY + London,<br/><span class="accent">in one place.</span></h1>
+    <p class="lede">Amanda &mdash; you're orchestrating programming and scheduling across two studios, distribution that now includes Spotify, and a growing slate of modalities. That's a lot of moving parts to hold in spreadsheets. Airtable is where content teams run exactly this &mdash; one live base, with automations and AI agents flagging conflicts <strong>before they bite</strong>.</p>
+    <div class="cta-row">
+      <a href="#book" class="btn">Pressure-test it on your calendar</a>
+      <a href="#usecases" class="btn ghost">See where it fits</a>
+      <span class="tiny">~20 min &middot; mapped to your programming workflow</span>
+    </div>
+  </div>
+  <div class="floatcells" aria-hidden="true">
+    <span style="background:var(--yellow)"></span><span style="background:var(--bg-soft)"></span><span style="background:var(--blue)"></span>
+    <span style="background:var(--bg-soft)"></span><span style="background:var(--red)"></span><span style="background:var(--bg-soft)"></span>
+    <span style="background:var(--teal)"></span><span style="background:var(--bg-soft)"></span><span style="background:var(--purple)"></span>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap">
+    <div class="intro">You're scaling output under a cost mandate. Here's the math.</div>
+    <div class="stats">
+      <div class="stat"><div class="n y">+18%</div><div class="l">FY26 Adjusted EBITDA growth &mdash; profitability is the priority</div></div>
+      <div class="stat"><div class="n t">$100M</div><div class="l">Run-rate savings targeted by end of FY26</div></div>
+      <div class="stat"><div class="n g">+50%</div><div class="l">YoY Pilates engagement &mdash; new modalities, more content</div></div>
+      <div class="stat"><div class="n r">2 &rarr; 17</div><div class="l">Studios (NY + London) producing for 17 countries</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="thesis">
+  <div class="wrap thesis-grid">
+    <div class="big">More content, across more modalities and markets &mdash; produced by a <em>leaner team</em>. That gap is a systems problem.</div>
+    <div>
+      <p>Strength, Pilates, sleep, meditation. Spotify and Breathwrk. New treadmills, commercial gyms, AI-personalized plans. Every bet on the connected-wellness roadmap creates more to plan, produce, localize, and ship.</p>
+      <p>When that work lives in spreadsheets and disconnected tools, no one has a single view of what's in production, what's localized, and what's shipping where &mdash; and the cost of coordination quietly grows with every new modality.</p>
+      <p>Airtable closes that gap: one connected source of truth, with automations and AI agents doing the status-chasing.</p>
+    </div>
+  </div>
+</section>
+
+<section id="usecases">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Where it fits</div>
+      <h2>Four places Airtable earns its seat — starting with yours</h2>
+      <p>Each maps to a team that already feels the coordination tax of growth. Programming and scheduling is where it pays off first.</p>
+    </div>
+    <div class="cards">
+      <div class="card feature">
+        <span class="startbadge">Where you’d start</span>
+        <h3>Studio calendars &amp; programming, live for everyone</h3>
+        <p>Class scheduling, studio calendars across New York and London, instructor assignments, localization, and distribution status &mdash; including Spotify &mdash; in one connected base. Automations flag conflicts before they bite, so no one's reconciling tabs at 7am.</p>
+        <div class="who">For: <b>Content Strategy &amp; Programming</b> &middot; the base your schedulers live in</div>
+      </div>
+      <div class="card">
+        <span class="tag"><span class="dot" style="background:var(--red)"></span>Marketing</span>
+        <h3>Creative &amp; campaign operations</h3>
+        <p>Every brief, asset, review, and approval in one place &mdash; from a campaign like “Let Yourself Go” to always-on social. AI drafts the busywork so the team takes more from brief to launch, faster.</p>
+        <div class="who">Owner: <b>Chief Marketing Officer</b> &middot; plus creative-ops &amp; DAM</div>
+      </div>
+      <div class="card">
+        <span class="tag"><span class="dot" style="background:var(--purple)"></span>Product &amp; Engineering</span>
+        <h3>Product roadmaps &amp; ops</h3>
+        <p>Stop paying engineers to maintain internal trackers that aren't the product. Airtable is the AI-native app platform for roadmaps and ops &mdash; so eng time goes back to the personalization roadmap.</p>
+        <div class="who">Owner: <b>Chief Product Officer</b> &middot; governed with <b>CTO</b></div>
+      </div>
+      <div class="card">
+        <span class="tag"><span class="dot" style="background:var(--green)"></span>Operations &amp; IT</span>
+        <h3>Tool consolidation &amp; governance</h3>
+        <p>A chunk of the savings target hides in tool sprawl. Consolidate overlapping spreadsheets and point apps onto one governed platform &mdash; fewer tools, clearer ownership, SSO and admin control.</p>
+        <div class="who">Owner: <b>COO / incoming CIO</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Why Airtable, why now</div>
+      <h2>The connective layer for connected wellness</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why"><div class="num">01</div><h3>AI-native, not another tool</h3><p>Airtable's app platform and AI agents automate the coordination work &mdash; drafting, routing, status updates &mdash; instead of adding one more place to check.</p></div>
+      <div class="why"><div class="num">02</div><h3>Built for content &amp; creative teams</h3><p>Production calendars, asset libraries, localization, and distribution are Airtable's most proven, most-referenced use cases &mdash; exactly Peloton's growth surface.</p></div>
+      <div class="why"><div class="num">03</div><h3>Governed at enterprise scale</h3><p>SSO, admin controls, permissions, and an open API mean teams move fast while IT keeps control &mdash; so shadow spreadsheets stop multiplying.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="pilot">
+      <div>
+        <h2>It starts as a 2-week pilot, not a migration.</h2>
+        <p>Your team runs a single quarter's programming calendar in Airtable. No big rollout, no IT project. If it saves the team time, it spreads on its own.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><i>1</i><span>Pick one workflow — a quarter's programming calendar.</span></div>
+        <div class="step"><i>2</i><span>We stand up a tailored base with your real schedule in days.</span></div>
+        <div class="step"><i>3</i><span>The team runs two weeks. We measure hours saved.</span></div>
+        <div class="step"><i>4</i><span>Expand to the modalities, markets, and teams that want in.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="book" style="padding-top:0">
+  <div class="wrap cta-final">
+    <h2>Pressure-test it on your real calendar.</h2>
+    <p>Twenty minutes, mapped to your programming workflow — even just to poke holes in it.</p>
+    <a href="mailto:your.email@airtable.com?subject=Airtable%20for%20Peloton%20%E2%80%94%2020%20min%20with%20Amanda" class="btn">Book the conversation</a>
+    <div class="contact">
+      <div class="who">Your Name<small>Account Executive, Airtable</small></div>
+      <a href="mailto:your.email@airtable.com">your.email@airtable.com</a>
+      <a href="#">your-calendar-link</a>
+    </div>
+    <div><span class="editme">Edit me: replace name, email, and calendar link before sharing</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footbrand"><span class="cells"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i></span>Airtable for Peloton</div>
+    <p class="disclaimer">Prepared for Amanda Hill by an Airtable account executive for discussion purposes. Not an official Peloton communication or an existing partnership. Company names and figures are referenced from public sources (Peloton FY2026 earnings disclosures) to frame the conversation. All trademarks belong to their respective owners.</p>
+  </div>
+</footer>
+</body>
+</html>
